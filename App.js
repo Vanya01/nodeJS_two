@@ -81,28 +81,5 @@ const womenWay = path.join(__dirname,'Peoples','Women');
          })
      })
  }
-
  sort ('Male','Women','Men');
  sort ('Female','Men','Women');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
