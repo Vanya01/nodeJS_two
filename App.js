@@ -1,8 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-const newUser = require('./createUser')
-////////////////////////////////////////////////////////first task
-
+const menWay = path.join(__dirname,'Peoples','Men');
+const womenWay = path.join(__dirname,'Peoples','Women');
   let firstUsersList = [
       {
           age:19,
@@ -29,39 +28,62 @@ const newUser = require('./createUser')
           name:'Ira',
           gender:'Female'
       },
-  ]
+  ];
+  let secondUsersList = [
+    {
+        age:29,
+        name:'Misha',
+        gender:'Male'
+    },
+    {
+        age:8,
+        name:'Igor',
+        gender:'Male'
+    },
+    {
+        age:24,
+        name:'Valya',
+        gender:'Female'
+    },
+    {
+        age:12,
+        name:'Masha',
+        gender:'Female'
+    },
+    {
+        age:43,
+        name:'Nadya',
+        gender:'Female'
+    },
+];
 
+ function sort (gender,newWay,oldWay){
+     fs.readdir(path.join(__dirname,`${newWay}`),(err, files) => {
+         if (err) {
+             console.log(err);
+             return
+         }
+         files.forEach(file =>{
+             fs.readFile(path.join(__dirname,`${newWay}`,file),(err,data)=>{
+                 if(err){
+                     console.log(err)
+                     return
+                 }
+                 const genderType = JSON.parse(data.toString())
+                 if(genderType.gender === gender){
+                     fs.rename(path.join(`${newWay}`,file),path.join(`${oldWay}`,file),(err)=>{
+                           if(err){
+                               console.log(err)
+                           }
+                     })
+                 }
+             })
+         })
+     })
+ }
 
-
-
-
-
-
-function CreateUser () {
-
-    for(user of firstUsersList){
-        if(user.gender === 'Female'){
-            // fs.mkdir (`Peoples/Women/${user.name}`,{recursive:true},(err)=>{
-            // });
-            fs.writeFile(`Peoples/Women/${user.name}.txt`,`${user.age} - ${user.name}`,(err => {
-                console.log(err)
-            }))
-
-        } else if (user.gender === 'Male'){
-
-            fs.writeFile(`Peoples/Men/${user.name}.txt`,`${user.age} - ${user.name}`,(err => {
-                console.log(err)
-            }))
-        }
-      }
-    }
-
-
-
-CreateUser()
-
-
-
+ sort ('Male','Women','Men');
+ sort ('Female','Men','Women');
 
 
 

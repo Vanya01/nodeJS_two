@@ -43,12 +43,12 @@
 
 // fs.rename - can move files to different folders
 
-// fs.rename(
-//     appendFilePath,
-//     path.join(mkdirPath,'newFile.txt',(err)=>{
-//         console.log(err)
-//     }) // connect with previous created way to folder
-//     )
+fs.rename(
+    appendFilePath,
+    path.join(mkdirPath,'newFile.txt',(err)=>{
+        console.log(err)
+    }) // connect with previous created way to folder
+    )
 
 
 
