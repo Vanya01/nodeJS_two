@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+
 const userRole = require('../Config/user-role');
 
 const userSchema = new Schema({
