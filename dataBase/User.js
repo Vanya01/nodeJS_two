@@ -11,19 +11,19 @@ const userSchema = new Schema({
     },
     password:{
         type: Number,
-        required:true, // must have
-        trim:true // delete spaces
+        required:true,
+        trim:true
     },
     email: {
         type: String,
-        unique: true, // special name
+        unique: true,
         required: true,
         trim: true
     },
     role: {
         type: String,
         default:userRole.USER,
-        enum: Object.values(userRole) // allowed just this roles
+        enum: Object.values(userRole)
     }
 }, { timestamps: true });
 
