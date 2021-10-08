@@ -1,5 +1,5 @@
 const User = require('../dataBase/User');
-const user = require("../dataBase/User");
+const user = require('../dataBase/User');
 
 module.exports = {
     getUsers: async (req, res) => {

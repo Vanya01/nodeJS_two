@@ -23,7 +23,6 @@ module.exports = {
             if (userLogin) {
                 throw new Error('Login incorrect');
             }
-
             next();
         } catch (e) {
             res.json(e.message);
