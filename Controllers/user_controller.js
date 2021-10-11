@@ -1,5 +1,6 @@
 const User = require('../dataBase/User');
-const user = require('../dataBase/User');
+const userUtil = require('../helper/helper');
+const passwordServices = require('../services/password-services');
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -17,7 +18,8 @@ module.exports = {
 
         try {
             const {user_id} = req.params;
-            const user = await User.findById(user_id);
+            const useR = await User.findById(user_id);
+            const user = userUtil.userNormalizator(useR);
 
             res.json(user);
         } catch (e) {
@@ -25,34 +27,38 @@ module.exports = {
         }
     },
 
-    createUser: async (req, res) => {
+    createUser: async (req, res, next) => {
 
         try {
-            const newUser = await User.create(req.body);
-
-            res.json(newUser);
+            const user = req.body;
+            const hashedPassword = await passwordServices.hash(user.password);
+            const users = await User.create({...user, password: hashedPassword});
+            res.json(users);
         } catch (e) {
             res.json(e.message);
         }
+        next();
     },
 
     deleteUser: async (req, res) => {
         try {
             const {user_id} = req.params;
-            const deletedUser = await User.findOneAndDelete(user_id);
+            let deletedUser = await User.findByIdAndDelete(user_id)
+                .lean();
+            deletedUser = userUtil.userNormalizator(deletedUser);
             res.json(deletedUser);
         } catch (e) {
             res.json(e.message);
         }
     },
-    login: async (req, res) => {
-        try {
-            const checkEmail = await user.findOne({login: req.body.login, password: req.body.password});
 
-            if (!checkEmail) {
-                throw Error('Email or password incorrect');
-            }
-            res.json('Congratulations!');
+    updateUser: async (req, res) => {
+        try {
+            const {user_id} = req.params;
+            let updatedUser = await User.findByIdAndUpdate(user_id, req.body)
+                .lean();
+            updatedUser = userUtil.userNormalizator(updatedUser);
+            res.json(updatedUser);
         } catch (e) {
             res.json(e.message);
         }

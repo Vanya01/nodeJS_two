@@ -3,17 +3,19 @@ const express = require('express');
 
 const {MONGO_CONNECT_URL, PORT} = require('./Config/config');
 
-const ldQwfW = express();
+const app = express();
 
 mongoose.connect(MONGO_CONNECT_URL);
 
-ldQwfW.use(express.json());
-ldQwfW.use(express.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 const userRouter = require('./Routes/endpointsOfUsers');
+const authRouter = require('./Routes/userAuthorizationRoute');
 
-ldQwfW.use('/users', userRouter);
+app.use('/users', userRouter);
+app.use('/auth', authRouter);
 
-ldQwfW.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`App listen ${PORT}`);
 });
